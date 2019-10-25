@@ -9,7 +9,7 @@ function setup() {
   createCanvas(500, 400);
 
   //make one avatar called me
-  me = new Avatar(width/2, 300, 3);
+  me = new Avatar(width/2, 300, 8);
 
 }
 
@@ -57,11 +57,11 @@ class Avatar {
 	}
 
 	moveMe(){
-    if (keyIsDown(UP_ARROW)) { //if you hold the up arrow, move up by speed
+    if (keyIsDown(87)) { //if you hold the up arrow, move up by speed
        this.y -= this.speed;
     }
 
-    if (keyIsDown(DOWN_ARROW)) { // if you hold the down arrow, move down by speed
+    if (keyIsDown(83)) { // if you hold the down arrow, move down by speed
         this.y += this.speed;
     }
 	}
