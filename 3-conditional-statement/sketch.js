@@ -1,6 +1,7 @@
 //create an empty array called balls
 let balls = [];
-
+let collisionNum = 0
+let grammar = "balls"
 //create a variable to hold your avatar
 let me;
 
@@ -18,9 +19,19 @@ function draw(){
 
   me.drawMe();
   me.moveMe();
+  if (collisionNum <=1) {
+    grammar = "ball"
+  }
+  else if (collisionNum >= 2){
+    grammar = "balls"
+  }
+  collisions = "You Have Hit " + collisionNum + " " + grammar
+  noStroke()
+  fill(50)
+  text(collisions,50,50);
 
   if (frameCount % 25 == 0) {
-      let  b = new Ball(width, random(0,height), -3);
+      let  b = new Ball(width, random(0,height), -3,false);
       balls.push(b);
       console.log(balls); //print the balls array to the console
     }
@@ -58,11 +69,17 @@ class Avatar {
 
 	moveMe(){
     if (keyIsDown(87)) { //if you hold the up arrow, move up by speed
-       this.y -= this.speed;
+       this.y -= this.speed-1;
     }
 
     if (keyIsDown(83)) { // if you hold the down arrow, move down by speed
-        this.y += this.speed;
+        this.y += this.speed-1;
+    }
+    if (keyIsDown(68)) {
+        this.x += this.speed-1;
+    }
+    if (keyIsDown(65)) {
+        this.x -= this.speed-1;
     }
 	}
 
@@ -77,10 +94,11 @@ class Avatar {
 class Ball {
 
 	//every ball needs an x value, a y value, and a speed
-	constructor(x,y, speed){
+	constructor(x,y, speed,hasHit){
 		this.x = x;
     this.y = y;
     this.speed = speed;
+    this.hasHit = hasHit
 	}
 
 	// draw a ball on the screen at x,y
@@ -99,8 +117,11 @@ class Ball {
 
 	//if the ball hits the person, change the speed value to negative (send it in the opposite direction)
   	bounceBall(){
-    		if (this.x >= me.x-15 && this.x <= me.x+15 && this.y > me.y-40 && this.y < me.y+40){
+    		if (this.x >= me.x-15 && this.x <= me.x+15 && this.y > me.y-40 && this.y < me.y+40 && this.hasHit==false){
       			this.speed = -this.speed;
+            this.hasHit = true
+            collisionNum = collisionNum + 1
+            console.log("collision has occured")
     		}
   	}
 
